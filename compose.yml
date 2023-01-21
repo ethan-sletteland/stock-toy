@@ -1,0 +1,35 @@
+services:
+  backend:
+    ports:
+      - "80:5000"
+    volumes:
+      - .:/backend/app
+    build:
+      context: backend
+    environment:
+      - NODE_ENV=development
+    networks:
+      - public
+      - private
+  frontend:
+    build:
+      context: frontend
+      target: development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/code/src
+      - /code/node_modules
+    networks:
+      - public
+    depends_on:
+      - backend
+networks:
+  public:
+  private:
+volumes:
+  back-notused:
+  db-data:
+secrets:
+  db-password:
+    file: db/password.txt
